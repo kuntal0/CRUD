@@ -1,0 +1,14 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.crud1 {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+styles{
+  background-color: aliceblue;
+}
