@@ -3,11 +3,14 @@ import * as React from 'react';
 import { ICrud1Props } from './ICrud1Props';
 //import { escape } from '@microsoft/sp-lodash-subset';
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import styles from './Crud1.module.scss';
+//import { DatePickerBase } from 'office-ui-fabric-react';
 
 interface IListItem {
   ID: number;
   Title: string;
   Age: number;
+  DOB: any;
 }
 
 interface IListItems {
@@ -17,6 +20,7 @@ interface IListItems {
   listTitle: string;
   listAge: number;
   listSelectedID: number;
+  listDOB: number;
 }
 
 export default class Crud1 extends React.Component<
@@ -30,6 +34,7 @@ export default class Crud1 extends React.Component<
       listTitle: undefined,
       listAge: 0,
       listSelectedID: 0,
+      listDOB: 0,
     };
   }
   componentDidMount() {
@@ -58,7 +63,7 @@ export default class Crud1 extends React.Component<
       });
   };
 
-  
+
   // Delete item
   public deleteItem = (itemID: number) => {
     // alert("this is delete");
@@ -97,6 +102,7 @@ export default class Crud1 extends React.Component<
     const body: string = JSON.stringify({
       Title: this.state.listTitle,
       Age: this.state.listAge,
+      DOB: this.state.listDOB,
     });
 
     this.props.context.spHttpClient
@@ -129,6 +135,7 @@ export default class Crud1 extends React.Component<
     const body: string = JSON.stringify({
       Title: this.state.listTitle,
       Age: this.state.listAge,
+      DOB:this.state.listDOB,
     });
 
     this.props.context.spHttpClient
@@ -153,12 +160,12 @@ export default class Crud1 extends React.Component<
       });
   };
 
-//export default class Crud1 extends React.Component<ICrud1Props, {}> {
-  
+  //export default class Crud1 extends React.Component<ICrud1Props, {}> {
+
   public render(): React.ReactElement<ICrud1Props> {
 
     return (
-      <div>
+      <div className={styles.crud1}>
         <input
           value={this.state.listTitle}
           type="text"
@@ -184,6 +191,18 @@ export default class Crud1 extends React.Component<
             });
           }}
         />
+        <input
+          value={this.state.listDOB}
+          type="date"
+          name=""
+          id="lsDOB"
+          placeholder="DOB"
+          onChange={(e) => {
+            this.setState({
+              listDOB: e.currentTarget.value as any,
+            });
+          }}
+        />
         <button
           onClick={() => {
             this.addItemInList();
@@ -199,15 +218,16 @@ export default class Crud1 extends React.Component<
           Update
         </button>
         <hr />
-        <hr />
         <table>
           <th>Title</th>
           <th>Age</th>
+          <th>DOB</th>
           {this.state.AllItems.map((emp) => {
             return (
               <tr>
                 <td>{emp.Title}</td>
                 <td>{emp.Age}</td>
+                <td>{emp.DOB}</td>
                 <td>
                   <button
                     onClick={() => {
@@ -215,6 +235,7 @@ export default class Crud1 extends React.Component<
                         listTitle: emp.Title,
                         listAge: emp.Age,
                         listSelectedID: emp.ID,
+                        listDOB: emp.DOB,
                       });
                     }}
                   >
